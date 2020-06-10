@@ -1,0 +1,134 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background-color: #001b2a;
+}
+
+.container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 300px;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.7);
+          box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.7);
+}
+
+.container .screen {
+  width: 100%;
+  height: 100px;
+  padding-right: 15px;
+  background-color: #570133;
+  -webkit-box-shadow: 0px 1px 5px rgba(255, 255, 255, 0.5), inset 5px 4px 5px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 1px 5px rgba(255, 255, 255, 0.5), inset 5px 4px 5px rgba(0, 0, 0, 0.5);
+  z-index: 4;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: none;
+  font-size: 20px;
+  font-family: 'Courier New', Courier, monospace;
+  color: white;
+  text-align: right;
+}
+
+.container .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin-bottom: -1px;
+}
+
+.container .row .key {
+  border-right: 1px solid #031d1a;
+  background-color: #072724;
+  padding: 20px 10px;
+  width: calc(300px / 4);
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  color: white;
+  cursor: pointer;
+  -webkit-transition: background-color 50ms linear;
+  transition: background-color 50ms linear;
+}
+
+.container .row .key:active {
+  background-color: #12685f;
+}
+
+.container .row .key.equals {
+  background-color: #ff3077;
+  width: 150px;
+  border: none;
+}
+
+.container .row .key.equals:active {
+  background-color: #c4114f;
+}
+
+.container .row .key.operator:not(.equals) {
+  background-color: #120033;
+}
+
+.container .row .key.operator:not(.equals):active {
+  background-color: #301269;
+}
+
+.container .error-message {
+  position: absolute;
+  color: red;
+  z-index: 10;
+  left: 50%;
+  top: -40px;
+  -webkit-transform: translateX(-50%) translateY(-10px) scale(0);
+          transform: translateX(-50%) translateY(-10px) scale(0);
+  background-color: #ffffff;
+  width: 200px;
+  height: 40px;
+  padding: 5px 20px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  -webkit-transition: -webkit-transform 100ms ease-in;
+  transition: -webkit-transform 100ms ease-in;
+  transition: transform 100ms ease-in;
+  transition: transform 100ms ease-in, -webkit-transform 100ms ease-in;
+}
+
+.container .error-message::before {
+  content: '';
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  border: 10px solid transparent;
+  border-top: 7px solid #ffffff;
+  border-bottom-width: 0;
+}
+
+.container .error-message.active {
+  -webkit-transform: translateX(-50%) translateY(-10px) scale(1);
+          transform: translateX(-50%) translateY(-10px) scale(1);
+}
+/*# sourceMappingURL=calculator.css.map */
