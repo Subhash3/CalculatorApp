@@ -1,52 +1,85 @@
+class Calculator {
+    constructor(expressionElement, valueElement) {
+        this.expressionElement = expressionElement
+        this.valueElement = valueElement
+
+        this.expression = this.expressionElement.innerText
+        this.value = this.valueElement.innerText
+    }
+
+    updateScreen = (expression) => {
+        this.expressionElement.innerText = this.expression.toString()
+        this.valueElement.innerText = this.value.toString()
+
+        console.log(this.expression, this.value)
+    }
+
+    appendNumber = (val) => {
+        this.value = this.value.toString() + val.toString()
+    }
+
+    backspaceScreen = () => {
+        this.expression = ""
+        this.value = this.value.toString()
+        this.value = this.value.slice(0, this.value.length - 1)
+    }
+
+    clearScreen = () => {
+        this.expression = ""
+        this.value = ""
+    }
+
+    evaluateExpression = () => {
+        try {
+            this.expression = this.value.toString()
+            if (this.expression === "") {
+                return
+            }
+            this.expression = this.expression.replace('x', '*')
+            this.value = eval(this.expression)
+            this.expression += ' = '
+        } catch (err) {
+            errorMessage.classList.add('active')
+            console.log("Invalid expression")
+            console.log(err)
+        }
+    }
+}
+
+// Dom Elements 
 const digitKeys = document.querySelectorAll('.digit')
 const operatorKeys = document.querySelectorAll('.operator')
 const clearScreenKey = document.querySelector('.clear-screen')
 const backspaceKey = document.querySelector('.backspace')
 const equalsKey = document.querySelector('.equals')
-const screen = document.querySelector('.screen')
+const screenExpression = document.querySelector('.screen .expression')
+const screenValue = document.querySelector('.screen .value')
 const errorMessage = document.querySelector('.error-message')
 const calculatorContainer = document.querySelector('.container')
+const darkModeButton = document.querySelector('.toggle-button')
 
+// Available Operations
 const allOperators = ['-', '+', '*', '/']
 
+// Merging digits and operators into a single array
 digitKeysArr = Array.prototype.slice.call(digitKeys)
 operatorKeysArr = Array.prototype.slice.call(operatorKeys)
 
 digitsAndOperators = digitKeysArr.concat(operatorKeysArr)
 
-const updateScreen = (expression) => {
-    screen.value += expression
+const toggleDarkMode = () => {
+    const body = document.getElementsByTagName('body')[0]
+    body.classList.toggle('toggle-dark-mode')
+    clearScreenKey.classList.toggle('toggle-dark-mode')
+    backspaceKey.classList.toggle('toggle-dark-mode')
+    digitKeys.forEach(key => {
+        key.classList.toggle('toggle-dark-mode')
+    })
+    darkModeButton.parentElement.classList.toggle('toggle-dark-mode')
 }
 
-const backspaceScreen = () => {
-    screenValue = screen.value
-    screen.value = screenValue.slice(0, screenValue.length - 1)
-    if (screen.value === "") {
-        screen.value = "0"
-    }
-}
-
-const clearScreen = () => {
-    screen.value = "0"
-}
-
-const evaluateExpression = () => {
-    try {
-        expression = screen.value
-        if (expression === "") {
-            return
-        }
-        expression = expression.replace('x', '*')
-        value = eval(expression)
-        // console.log(expression, value)
-        screen.value = value
-    } catch (err) {
-        errorMessage.classList.add('active')
-        console.log("Invalid expression")
-        // console.log(err)
-    }
-}
-
+// Function to check if a given value is a digit or not
+// This is probably not the best way to write this function
 const isDigit = (val) => {
     try {
         num = parseInt(val)
@@ -59,6 +92,7 @@ const isDigit = (val) => {
     }
 }
 
+// Function to check if a given value is an operator or not
 const isOperator = (val) => {
     for (i = 0; i < allOperators.length; i++) {
         if (allOperators[i] === val) {
@@ -68,6 +102,10 @@ const isOperator = (val) => {
     return false
 }
 
+// Creating the calculator object
+const calculator = new Calculator(screenExpression, screenValue)
+
+// Add functions to the DOM elements
 calculatorContainer.addEventListener('click', (event) => {
     targetElement = event.target
     if (targetElement.classList.contains('equals')) {
@@ -81,22 +119,27 @@ calculatorContainer.addEventListener('click', (event) => {
 digitsAndOperators.forEach((key) => {
     key.addEventListener('click', (event) => {
         value = event.target.innerText
-        updateScreen(value)
+        calculator.appendNumber(value)
+        calculator.updateScreen()
     })
 })
 
 backspaceKey.addEventListener('click', (event) => {
-    backspaceScreen()
+    calculator.backspaceScreen()
+    calculator.updateScreen()
 })
 
 clearScreenKey.addEventListener('click', (event) => {
-    clearScreen()
+    calculator.clearScreen()
+    calculator.updateScreen()
 })
 
 equalsKey.addEventListener('click', (event) => {
-    evaluateExpression()
+    calculator.evaluateExpression()
+    calculator.updateScreen()
 })
 
+// Interact with keyboard
 window.addEventListener('keydown', (event) => {
     keyLocation = event.code
     key = event.key
@@ -105,11 +148,22 @@ window.addEventListener('keydown', (event) => {
         errorMessage.classList.remove('active')
     }
 
+    console.log(key + " pressed")
+
     if (isDigit(key) || isOperator(key)) {
-        updateScreen(key)
+        calculator.appendNumber(key)
+        calculator.updateScreen()
     } else if (key === '=' || key === 'Enter') {
-        evaluateExpression()
+        calculator.evaluateExpression()
+        calculator.updateScreen()
     } else if (key === 'Backspace') {
-        backspaceScreen()
+        calculator.backspaceScreen()
+        calculator.updateScreen()
     }
 })
+
+// Toggle dark mode
+window.addEventListener('load', (e) => {
+    darkModeButton.checked = false
+})
+darkModeButton.addEventListener('click', toggleDarkMode)
