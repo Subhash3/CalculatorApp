@@ -1,0 +1,52 @@
+input[type="checkbox"].toggle-button {
+  --unchecked-bg: rgb(194, 194, 194);
+  --checked-bg: rgb(89, 175, 118);
+  --height: 20px;
+  --width: 40px;
+  --circle-color: white;
+  --circle-size: var(--height);
+  position: relative;
+  width: var(--width);
+  height: var(--height);
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: var(--unchecked-bg);
+  border-radius: 15px;
+  -webkit-box-shadow: inset -4px 4px 5px rgba(0, 0, 0, 0.5);
+          box-shadow: inset -4px 4px 5px rgba(0, 0, 0, 0.5);
+  outline: none;
+  cursor: pointer;
+  -webkit-transition: background-color, -webkit-box-shadow 300ms ease-in-out;
+  transition: background-color, -webkit-box-shadow 300ms ease-in-out;
+  transition: background-color, box-shadow 300ms ease-in-out;
+  transition: background-color, box-shadow 300ms ease-in-out, -webkit-box-shadow 300ms ease-in-out;
+}
+
+input[type="checkbox"].toggle-button::before {
+  content: '';
+  position: absolute;
+  width: var(--circle-size);
+  height: var(--circle-size);
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: var(--circle-color);
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5), inset -1px -1px 3px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5), inset -1px -1px 3px rgba(0, 0, 0, 0.5);
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  -webkit-transition: left 300ms;
+  transition: left 300ms;
+}
+
+input[type="checkbox"].toggle-button:checked {
+  background-color: var(--checked-bg);
+  -webkit-box-shadow: inset 4px 4px 5px rgba(0, 0, 0, 0.5);
+          box-shadow: inset 4px 4px 5px rgba(0, 0, 0, 0.5);
+}
+
+input[type="checkbox"].toggle-button:checked::before {
+  left: calc(100% - var(--circle-size));
+}
+/*# sourceMappingURL=checkbox.css.map */
